@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Predict Housing Affordability</title>
+  <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='./style.css') }}">
+  
+</head>
+
+<body>
+ <div class="login">
+	<h1>Predict Housing Affordability</h1>
+
+     <!-- Form to enter new data for predictions  -->
+    <form action="{{ url_for('predict')}}"method="POST">
+      <select name="District_code" required = "required">
+        <option value="" disabled selected>District</option>
+        <option value="0">Asharij</option>	
+        <option value="1">Al Bahyah</option>	
+        <option value="2">Al Bateen</option>
+        <option value="3">Al Danah</option>
+        <option value="4">Al Faqa!</option>
+        <option value="5">Al Hisn</option>
+        <option value="6">Al Jahili</option>	
+        <option value="7">Al Jimi</option>	
+        <option value="8">Al Khalidiyah</option>	
+        <option value="9">Al Khaznah</option>	
+        <option value="10">Al Khibeesi</option>	
+        <option value="11">Al Manhal</option>
+        <option value="12">Al Maqta</option>
+        <option value="13">Al Marfa</option>	
+        <option value="14">Al Mu!tarid</option>	
+        <option value="15">Al_Mushrif</option>	
+        <option value="16">Al_Mutaw!a</option>	h
+        <option value="17">Al_Muwaij!i</option>	
+        <option value="18">Al_Nahyan</option>	
+        <option value="19">Al_Qattarah</option>	
+        <option value="20">Al_Qou!</option>	
+        <option value="21">Al_Rahah</option>	
+        <option value="22">Al_Rawdah</option>	
+        <option value="23">Al_Sa!adah</option>	
+        <option value="24">Al_Sarouj</option>	
+        <option value="25">Al_Selmiyyah</option>	
+        <option value="26">Al_Shahamah</option>	
+        <option value="27">Al_Wiqan</option>	
+        <option value="28">Al_Zahiyah</option>	
+        <option value="29">Bad!_Al_Mutaw!ah</option>	
+        <option value="30">Bani_Yas</option>	
+        <option value="31">Central_District</option>	
+        <option value="32">Delma</option>	
+        <option value="33">Ghiyathi</option>	
+        <option value="34">Hadbat_Al_Za!faran	ah</option>
+        <option value="35">Hili</option>	
+        <option value="36">Industrial_Area</option>	
+        <option value="37">Jazeerat_Al_Reem</option>	
+        <option value="38">Khalifa_City</option>	
+        <option value="39">Mohamed_Bin_Zayed_City</option>	
+        <option value="40">Musaffah</option>	
+        <option value="41">MzeerÊ»ah</option>	
+        <option value="42">Nahil</option>	
+        <option value="43">Rimah</option>	
+        <option value="44">Shakhbout_City</option>	
+        <option value="45">Sweihan</option>	
+        <option value="46">Western_Mahadir</option>	
+        <option value="47">Zayed_City</option>	
+      </select><br>
+
+      <select name="rooms" required = "required">
+        <option value="" disabled selected>Rooms</option>
+        <option value="0">Studio</option>
+        <option value="1">1 Bed Room</option>	
+        <option value="2">2 Bed Rooms</option>	
+        <option value="3">3 Bed Rooms</option>	
+        <option value="4">4 Bed Rooms</option>
+        <option value="5">5 Bed Rooms</option>
+        <option value="6">6 Bed Rooms</option>	
+      </select><br>
+
+      <input type="text" name="Mosques_1_km" placeholder="Mosques" required="required" /><br>
+      <input type="text" name="Hotels_1_km" placeholder="Hotels" required="required" /><br>
+      <input type="text" name="HealthCentres_1_km" placeholder="Health Centres" required="required" /><br>
+      <input type="text" name="cafes_1_km" placeholder="Cafes" required="required" /><br>
+      <input type="text" name="BusStops_1_km" placeholder="Bus Stops" required="required" /><br>
+      <input type="text" name="Pharmacy_1_km" placeholder="Pharmacies" required="required" /><br>
+      <input type="text" name="Governement_department_1_km" placeholder="Government Departments" required="required" /><br>
+      <input type="text" name="Refreshment_fastFood_1_km" placeholder="Refreshment Fast Food" required="required" /><br>
+      <input type="text" name="PetrolStation_1_km" placeholder="Petrol Station" required="required" /><br>
+      <input type="text" name="Public_Parks_1_km" placeholder="Public Parks" required="required" /><br>
+      <input type="text" name="Cultural_Facility_1_km" placeholder="Cultural Facility" required="required" /><br>
+
+
+      <button type="submit" class="btn btn-primary btn-block btn-large">Predict</button>
+    </form>
+
+   <br>
+   <br>
+  
+   
+ </div>
+ {{pred}}
+
+</body>
+</html>
