@@ -8,15 +8,18 @@
 <link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
 <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
 <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='./style.css') }}">
-  
 </head>
+
 
 <body>
  <div class="login">
 	<h1>Predict Housing Affordability</h1>
 
      <!-- Form to enter new data for predictions  -->
+
     <form action="{{ url_for('predict')}}"method="POST">
+      <div>
+
       <select name="District_code" required = "required">
         <option value="" disabled selected>District</option>
         <option value="0">Asharij</option>	
@@ -67,7 +70,7 @@
         <option value="45">Sweihan</option>	
         <option value="46">Western_Mahadir</option>	
         <option value="47">Zayed_City</option>	
-      </select><br>
+      </select>
 
       <select name="rooms" required = "required">
         <option value="" disabled selected>Rooms</option>
@@ -78,19 +81,79 @@
         <option value="4">4 Bed Rooms</option>
         <option value="5">5 Bed Rooms</option>
         <option value="6">6 Bed Rooms</option>	
-      </select><br>
+      </select>
 
-      <input type="text" name="Mosques_1_km" placeholder="Mosques" required="required" /><br>
-      <input type="text" name="Hotels_1_km" placeholder="Hotels" required="required" /><br>
-      <input type="text" name="HealthCentres_1_km" placeholder="Health Centres" required="required" /><br>
-      <input type="text" name="cafes_1_km" placeholder="Cafes" required="required" /><br>
-      <input type="text" name="BusStops_1_km" placeholder="Bus Stops" required="required" /><br>
-      <input type="text" name="Pharmacy_1_km" placeholder="Pharmacies" required="required" /><br>
-      <input type="text" name="Governement_department_1_km" placeholder="Government Departments" required="required" /><br>
-      <input type="text" name="Refreshment_fastFood_1_km" placeholder="Refreshment Fast Food" required="required" /><br>
-      <input type="text" name="PetrolStation_1_km" placeholder="Petrol Station" required="required" /><br>
-      <input type="text" name="Public_Parks_1_km" placeholder="Public Parks" required="required" /><br>
-      <input type="text" name="Cultural_Facility_1_km" placeholder="Cultural Facility" required="required" /><br>
+    </div>
+    <div class="flex-container">
+
+      <div class="slidecontainer flex-item">
+        <p>Mosques: <span id="mosques"></span></p>
+        <input type="range" name="Mosques_1_km" min="0" max="20" value="0" class="slider" id="mosqueRange"><br>
+        
+      </div>
+
+      <div class="slidecontainer flex-item">
+        <p>Hotels: <span id="hotels"></span></p>
+        <input type="range" name="Hotels_1_km" min="0" max="20" value="0" class="slider" id="hotelRange"><br>
+        
+      </div>
+
+
+      <div class="slidecontainer flex-item">
+        <p>Health Centres: <span id="healthCentres"></span></p>
+        <input type="range" name="HealthCentres_1_km" min="0" max="20" value="0" class="slider" id="hCentreRange"><br>
+        
+      </div>
+
+      <div class="slidecontainer flex-item">
+        <p>Cafes: <span id="cafes"></span></p>
+        <input type="range" name="cafes_1_km" min="0" max="20" value="0" class="slider" id="cafeRange"><br>
+        
+      </div>
+
+      <div class="slidecontainer flex-item">
+        <p>Bus Stops: <span id="busStops"></span></p>
+        <input type="range" name="BusStops_1_km" min="0" max="20" value="0" class="slider" id="busRange"><br>
+        
+      </div>
+
+      <div class="slidecontainer flex-item">
+        <p>Pharmacies: <span id="pharmacies"></span></p>
+        <input type="range" name="Pharmacy_1_km" min="0" max="20" value="0" class="slider" id="pharmacyRange"><br>
+        
+      </div>
+
+      <div class="slidecontainer flex-item">
+        <p>Government Departments: <span id="governmentD"></span></p>
+        <input type="range" name="Governement_department_1_km" min="0" max="20" value="0" class="slider" id="gDRange"><br>
+        
+      </div>
+
+      <div class="slidecontainer flex-item">
+        <p>Refreshments and FastFood: <span id="refreshmentFF"></span></p>
+        <input type="range" name="Refreshment_fastFood_1_km" min="0" max="20" value="0" class="slider" id="rFFRange"><br>
+        
+      </div>
+            <div class="slidecontainer flex-item">
+        <p>Petrol Stations: <span id="petrolS"></span></p>
+        <input type="range" name="PetrolStation_1_km" min="0" max="20" value="0" class="slider" id="petrolRange"><br>
+        
+      </div>
+
+      <div class="slidecontainer flex-item">
+        <p>Public Parks: <span id="publicP"></span></p>
+        <input type="range" name="Public_Parks_1_km" min="0" max="20" value="0" class="slider" id="publicParkRange"><br>
+        
+      </div>
+
+      <div class="slidecontainer flex-item">
+        <p>Cultural Facilities: <span id="culturalF"></span></p>
+        <input type="range" name="Cultural_Facility_1_km" min="0" max="20" value="0" class="slider" id="culturalFacRange"><br>
+        
+      </div>
+      </div>
+
+
 
 
       <button type="submit" class="btn btn-primary btn-block btn-large">Predict</button>
@@ -102,6 +165,97 @@
    
  </div>
  {{pred}}
+
+
+ <script>
+  
+  // Display the default slider value
+  document.getElementById("mosques").innerHTML = document.getElementById("mosqueRange").value; 
+  
+  // Update the current slider value (each time you drag the slider handle)
+  document.getElementById("mosqueRange").oninput = function() {
+    document.getElementById("mosques").innerHTML = this.value;
+  }
+
+
+  document.getElementById("hotels").innerHTML = document.getElementById("hotelRange").value; // Display the default slider value
+  
+  // Update the current slider value (each time you drag the slider handle)
+  document.getElementById("hotelRange").oninput = function() {
+    document.getElementById("hotels").innerHTML = this.value;
+  }
+
+  document.getElementById("healthCentres").innerHTML = document.getElementById("hCentreRange").value; // Display the default slider value
+  
+  // Update the current slider value (each time you drag the slider handle)
+  document.getElementById("hCentreRange").oninput = function() {
+    document.getElementById("healthCentres").innerHTML = this.value;
+  }
+
+  document.getElementById("cafes").innerHTML = document.getElementById("cafeRange").value; // Display the default slider value
+  
+  // Update the current slider value (each time you drag the slider handle)
+  document.getElementById("cafeRange").oninput = function() {
+    document.getElementById("cafes").innerHTML = this.value;
+  }
+
+
+  document.getElementById("busStops").innerHTML = document.getElementById("busRange").value; // Display the default slider value
+  
+  // Update the current slider value (each time you drag the slider handle)
+  document.getElementById("busRange").oninput = function() {
+    document.getElementById("busStops").innerHTML = this.value;
+  }
+
+
+  document.getElementById("pharmacies").innerHTML = document.getElementById("pharmacyRange").value; // Display the default slider value
+  
+  // Update the current slider value (each time you drag the slider handle)
+  document.getElementById("pharmacyRange").oninput = function() {
+    document.getElementById("pharmacies").innerHTML = this.value;
+  }
+
+
+  document.getElementById("governmentD").innerHTML = document.getElementById("gDRange").value; // Display the default slider value
+  
+  // Update the current slider value (each time you drag the slider handle)
+  document.getElementById("gDRange").oninput = function() {
+    document.getElementById("governmentD").innerHTML = this.value;
+  }
+
+
+  document.getElementById("refreshmentFF").innerHTML = document.getElementById("rFFRange").value; // Display the default slider value
+  
+  // Update the current slider value (each time you drag the slider handle)
+  document.getElementById("rFFRange").oninput = function() {
+    document.getElementById("refreshmentFF").innerHTML = this.value;
+  }
+  
+
+  document.getElementById("petrolS").innerHTML = document.getElementById("petrolRange").value; // Display the default slider value
+  
+  // Update the current slider value (each time you drag the slider handle)
+  document.getElementById("petrolRange").oninput = function() {
+    document.getElementById("petrolS").innerHTML = this.value;
+  }
+
+
+  document.getElementById("publicP").innerHTML = document.getElementById("publicParkRange").value; // Display the default slider value
+  
+  // Update the current slider value (each time you drag the slider handle)
+  document.getElementById("publicParkRange").oninput = function() {
+    document.getElementById("publicP").innerHTML = this.value;
+  }
+
+  var slider = document.getElementById("culturalFacRange");
+  var output = document.getElementById("culturalF");
+  document.getElementById("culturalF").innerHTML = document.getElementById("culturalFacRange").value; // Display the default slider value
+  
+  // Update the current slider value (each time you drag the slider handle)
+  document.getElementById("culturalFacRange").oninput = function() {
+    document.getElementById("culturalF").innerHTML = this.value;
+  }
+</script> 
 
 </body>
 </html>
