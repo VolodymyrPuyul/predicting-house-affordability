@@ -38,6 +38,7 @@ function initMap() {
             var district_name = district_info["district_name"];
             var district_id = district_info["district_id"]
             document.getElementById("districtCode").value = district_id;
+            document.getElementById("openBtn").innerHTML = district_name
 
         //    console.log($.parseJSON(district_info));
             infoWindow.setContent(
