@@ -9,8 +9,15 @@ from sklearn.preprocessing import RobustScaler
 from sklearn.model_selection import cross_val_predict, cross_validate, cross_val_score
 from sklearn import ensemble
 import os
+import fiona
+from shapely.geometry import shape,mapping, Point, Polygon, MultiPolygon
+import geojson
+import json
+
 # Initalise the Flask app
 app = Flask(__name__)
+
+# app.use("/static", express.static('./static/'))
 
 # Loads pre-trained model
 print("Current working directory: {0}".format(os.getcwd()))
@@ -43,5 +50,25 @@ def predict_api():
     output = prediction[0]
     return jsonify(output)
 
+@app.route('/district', methods=['POST'])
+def district():
+    lat = float(request.form['lat'])
+    lng = float(request.form['lng'])
+
+    with fiona.open('Abudhabi_analytics_final_3.json') as layer:
+        Alist = list(layer)
+    point = {'coordinates': (lng, lat), 'type': 'Point'}
+    pt = shape(point)
+    for district_mpolygon in Alist:
+        if pt.within(shape(district_mpolygon['geometry'])):
+            district_name = district_mpolygon['properties']['DISTRICTNA']
+            district_id = district_mpolygon['properties']['id']
+    print(district_name)
+    district_info = {"district_name": district_name, "district_id": district_id}
+
+    return json.dumps(district_info)
+
+
+
 if __name__ == '__main__':
-    app.run(debug=True)
+     app.run(debug=True)

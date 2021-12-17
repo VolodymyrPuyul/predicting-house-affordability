@@ -9,6 +9,14 @@
 <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
 <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='./style.css') }}">
 
+<script src="../static/index.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<style type="text/css">
+  /* Set the size of the div element that contains the map */
+
+</style>
+
 
 
 </head>
@@ -23,139 +31,109 @@
      <!-- Form to enter new data for predictions  -->
 
     <form action="{{ url_for('predict')}}"method="POST">
-      <div>
+      <div class="flex-container">
 
-      <select name="District_code" required = "required">
-        <option value="" disabled selected>District</option>
-        <option value="0">Asharij</option>	
-        <option value="1">Al Bahyah</option>	
-        <option value="2">Al Bateen</option>
-        <option value="3">Al Danah</option>
-        <option value="4">Al Faqa!</option>
-        <option value="5">Al Hisn</option>
-        <option value="6">Al Jahili</option>	
-        <option value="7">Al Jimi</option>	
-        <option value="8">Al Khalidiyah</option>	
-        <option value="9">Al Khaznah</option>	
-        <option value="10">Al Khibeesi</option>	
-        <option value="11">Al Manhal</option>
-        <option value="12">Al Maqta</option>
-        <option value="13">Al Marfa</option>	
-        <option value="14">Al Mu!tarid</option>	
-        <option value="15">Al_Mushrif</option>	
-        <option value="16">Al_Mutaw!ah</option>
-        <option value="17">Al_Muwaij!i</option>	
-        <option value="18">Al_Nahyan</option>	
-        <option value="19">Al_Qattarah</option>	
-        <option value="20">Al_Qou!</option>	
-        <option value="21">Al_Rahah</option>	
-        <option value="22">Al_Rawdah</option>	
-        <option value="23">Al_Sa!adah</option>	
-        <option value="24">Al_Sarouj</option>	
-        <option value="25">Al_Selmiyyah</option>	
-        <option value="26">Al_Shahamah</option>	
-        <option value="27">Al_Wiqan</option>	
-        <option value="28">Al_Zahiyah</option>	
-        <option value="29">Bad!_Al_Mutaw!ah</option>	
-        <option value="30">Bani_Yas</option>	
-        <option value="31">Central_District</option>	
-        <option value="32">Delma</option>	
-        <option value="33">Ghiyathi</option>	
-        <option value="34">Hadbat_Al_Za!faran	ah</option>
-        <option value="35">Hili</option>	
-        <option value="36">Industrial_Area</option>	
-        <option value="37">Jazeerat_Al_Reem</option>	
-        <option value="38">Khalifa_City</option>	
-        <option value="39">Mohamed_Bin_Zayed_City</option>	
-        <option value="40">Musaffah</option>	
-        <option value="41">MzeerÊ»ah</option>	
-        <option value="42">Nahil</option>	
-        <option value="43">Rimah</option>	
-        <option value="44">Shakhbout_City</option>	
-        <option value="45">Sweihan</option>	
-        <option value="46">Western_Mahadir</option>	
-        <option value="47">Zayed_City</option>	
-      </select>
+          <div class="flex-item" id="open">
+            <button class="open-button" onclick="openForm()">Click To Open The Map And Select District</button>
+          </div>
+          <div class="form-popup" id="myForm" style="display: none;">
+            <form action="/action_page.php" class="form-container">
 
-      <select name="rooms" required = "required">
-        <option value="" disabled selected>Rooms</option>
-        <option value="0">Studio</option>
-        <option value="1">1 Bed Room</option>	
-        <option value="2">2 Bed Rooms</option>	
-        <option value="3">3 Bed Rooms</option>	
-        <option value="4">4 Bed Rooms</option>
-        <option value="5">5 Bed Rooms</option>
-        <option value="6">6 Bed Rooms</option>	
-      </select>
+              
+              <div class="popup" id="map"></div>
+      
+              <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+              <script
+              src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA2mcUS5kH5gIQOTH0jxV3pwxt8mC3TuHs&callback=initMap&libraries=&v=weekly"
+              async
+              ></script>
+              
+              </div>
+      
+              
+            </form>
+          
+        <input type="hidden" value="-1" name="District_code" id="districtCode">
+      
 
-    </div>
-    <div class="flex-container">
+        <select name="rooms" required = "required">
+          <option value="" disabled selected>Rooms</option>
+          <option value="0">Studio</option>
+          <option value="1">1 Bed Room</option>	
+          <option value="2">2 Bed Rooms</option>	
+          <option value="3">3 Bed Rooms</option>	
+          <option value="4">4 Bed Rooms</option>
+          <option value="5">5 Bed Rooms</option>
+          <option value="6">6 Bed Rooms</option>	
+        </select>
 
-      <div class="slidecontainer flex-item">
-        <p>Mosques: <span id="mosques"></span></p>
-        <input type="range" name="Mosques_1_km" min="0" max="20" value="0" class="slider" id="mosqueRange"><br>
-        
-      </div>
+      
 
-      <div class="slidecontainer flex-item">
-        <p>Hotels: <span id="hotels"></span></p>
-        <input type="range" name="Hotels_1_km" min="0" max="20" value="0" class="slider" id="hotelRange"><br>
-        
-      </div>
+        <div class="slidecontainer flex-item">
+          <p>Mosques: <span id="mosques"></span></p>
+          <input type="range" name="Mosques_1_km" min="0" max="20" value="0" class="slider" id="mosqueRange"><br>
+          
+        </div>
+
+        <div class="slidecontainer flex-item">
+          <p>Hotels: <span id="hotels"></span></p>
+          <input type="range" name="Hotels_1_km" min="0" max="20" value="0" class="slider" id="hotelRange"><br>
+          
+        </div>
 
 
-      <div class="slidecontainer flex-item">
-        <p>Health Centres: <span id="healthCentres"></span></p>
-        <input type="range" name="HealthCentres_1_km" min="0" max="20" value="0" class="slider" id="hCentreRange"><br>
-        
-      </div>
+        <div class="slidecontainer flex-item">
+          <p>Health Centres: <span id="healthCentres"></span></p>
+          <input type="range" name="HealthCentres_1_km" min="0" max="20" value="0" class="slider" id="hCentreRange"><br>
+          
+        </div>
 
-      <div class="slidecontainer flex-item">
-        <p>Cafes: <span id="cafes"></span></p>
-        <input type="range" name="cafes_1_km" min="0" max="20" value="0" class="slider" id="cafeRange"><br>
-        
-      </div>
+        <div class="slidecontainer flex-item">
+          <p>Cafes: <span id="cafes"></span></p>
+          <input type="range" name="cafes_1_km" min="0" max="20" value="0" class="slider" id="cafeRange"><br>
+          
+        </div>
 
-      <div class="slidecontainer flex-item">
-        <p>Bus Stops: <span id="busStops"></span></p>
-        <input type="range" name="BusStops_1_km" min="0" max="20" value="0" class="slider" id="busRange"><br>
-        
-      </div>
+        <div class="slidecontainer flex-item">
+          <p>Bus Stops: <span id="busStops"></span></p>
+          <input type="range" name="BusStops_1_km" min="0" max="20" value="0" class="slider" id="busRange"><br>
+          
+        </div>
 
-      <div class="slidecontainer flex-item">
-        <p>Pharmacies: <span id="pharmacies"></span></p>
-        <input type="range" name="Pharmacy_1_km" min="0" max="20" value="0" class="slider" id="pharmacyRange"><br>
-        
-      </div>
+        <div class="slidecontainer flex-item">
+          <p>Pharmacies: <span id="pharmacies"></span></p>
+          <input type="range" name="Pharmacy_1_km" min="0" max="20" value="0" class="slider" id="pharmacyRange"><br>
+          
+        </div>
 
-      <div class="slidecontainer flex-item">
-        <p>Government Departments: <span id="governmentD"></span></p>
-        <input type="range" name="Governement_department_1_km" min="0" max="20" value="0" class="slider" id="gDRange"><br>
-        
-      </div>
+        <div class="slidecontainer flex-item">
+          <p>Government Departments: <span id="governmentD"></span></p>
+          <input type="range" name="Governement_department_1_km" min="0" max="20" value="0" class="slider" id="gDRange"><br>
+          
+        </div>
 
-      <div class="slidecontainer flex-item">
-        <p>Refreshments and FastFood: <span id="refreshmentFF"></span></p>
-        <input type="range" name="Refreshment_fastFood_1_km" min="0" max="20" value="0" class="slider" id="rFFRange"><br>
-        
-      </div>
-            <div class="slidecontainer flex-item">
-        <p>Petrol Stations: <span id="petrolS"></span></p>
-        <input type="range" name="PetrolStation_1_km" min="0" max="20" value="0" class="slider" id="petrolRange"><br>
-        
-      </div>
+        <div class="slidecontainer flex-item">
+          <p>Refreshments and FastFood: <span id="refreshmentFF"></span></p>
+          <input type="range" name="Refreshment_fastFood_1_km" min="0" max="20" value="0" class="slider" id="rFFRange"><br>
+          
+        </div>
+              <div class="slidecontainer flex-item">
+          <p>Petrol Stations: <span id="petrolS"></span></p>
+          <input type="range" name="PetrolStation_1_km" min="0" max="20" value="0" class="slider" id="petrolRange"><br>
+          
+        </div>
 
-      <div class="slidecontainer flex-item">
-        <p>Public Parks: <span id="publicP"></span></p>
-        <input type="range" name="Public_Parks_1_km" min="0" max="20" value="0" class="slider" id="publicParkRange"><br>
-        
-      </div>
+        <div class="slidecontainer flex-item">
+          <p>Public Parks: <span id="publicP"></span></p>
+          <input type="range" name="Public_Parks_1_km" min="0" max="20" value="0" class="slider" id="publicParkRange"><br>
+          
+        </div>
 
-      <div class="slidecontainer flex-item">
-        <p>Cultural Facilities: <span id="culturalF"></span></p>
-        <input type="range" name="Cultural_Facility_1_km" min="0" max="20" value="0" class="slider" id="culturalFacRange"><br>
-        
-      </div>
+        <div class="slidecontainer flex-item">
+          <p>Cultural Facilities: <span id="culturalF"></span></p>
+          <input type="range" name="Cultural_Facility_1_km" min="0" max="20" value="0" class="slider" id="culturalFacRange"><br>
+          
+        </div>
       </div>
 
 
@@ -163,7 +141,7 @@
 
       <button type="submit" class="btn btn-primary btn-block btn-large">Predict</button>
     </form>
-
+  </div>
    <br>
    <br>
   
@@ -172,94 +150,22 @@
  {{pred}}
 
 
- <script>
-  
-  // Display the default slider value
-  document.getElementById("mosques").innerHTML = document.getElementById("mosqueRange").value; 
-  
-  // Update the current slider value (each time you drag the slider handle)
-  document.getElementById("mosqueRange").oninput = function() {
-    document.getElementById("mosques").innerHTML = this.value;
-  }
+
+<script>
 
 
-  document.getElementById("hotels").innerHTML = document.getElementById("hotelRange").value; // Display the default slider value
-  
-  // Update the current slider value (each time you drag the slider handle)
-  document.getElementById("hotelRange").oninput = function() {
-    document.getElementById("hotels").innerHTML = this.value;
-  }
+  slider("mosques", "mosqueRange")
+  slider("hotels", "hotelRange")
+  slider("healthCentres", "hCentreRange")
+  slider("cafes", "cafeRange")
+  slider("busStops", "busRange")
+  slider("pharmacies", "pharmacyRange")
+  slider("governmentD", "gDRange")
+  slider("refreshmentFF", "rFFRange")
+  slider("petrolS", "petrolRange")
+  slider("publicP", "publicParkRange")
+  slider("culturalF", "culturalFacRange")
 
-  document.getElementById("healthCentres").innerHTML = document.getElementById("hCentreRange").value; // Display the default slider value
-  
-  // Update the current slider value (each time you drag the slider handle)
-  document.getElementById("hCentreRange").oninput = function() {
-    document.getElementById("healthCentres").innerHTML = this.value;
-  }
-
-  document.getElementById("cafes").innerHTML = document.getElementById("cafeRange").value; // Display the default slider value
-  
-  // Update the current slider value (each time you drag the slider handle)
-  document.getElementById("cafeRange").oninput = function() {
-    document.getElementById("cafes").innerHTML = this.value;
-  }
-
-
-  document.getElementById("busStops").innerHTML = document.getElementById("busRange").value; // Display the default slider value
-  
-  // Update the current slider value (each time you drag the slider handle)
-  document.getElementById("busRange").oninput = function() {
-    document.getElementById("busStops").innerHTML = this.value;
-  }
-
-
-  document.getElementById("pharmacies").innerHTML = document.getElementById("pharmacyRange").value; // Display the default slider value
-  
-  // Update the current slider value (each time you drag the slider handle)
-  document.getElementById("pharmacyRange").oninput = function() {
-    document.getElementById("pharmacies").innerHTML = this.value;
-  }
-
-
-  document.getElementById("governmentD").innerHTML = document.getElementById("gDRange").value; // Display the default slider value
-  
-  // Update the current slider value (each time you drag the slider handle)
-  document.getElementById("gDRange").oninput = function() {
-    document.getElementById("governmentD").innerHTML = this.value;
-  }
-
-
-  document.getElementById("refreshmentFF").innerHTML = document.getElementById("rFFRange").value; // Display the default slider value
-  
-  // Update the current slider value (each time you drag the slider handle)
-  document.getElementById("rFFRange").oninput = function() {
-    document.getElementById("refreshmentFF").innerHTML = this.value;
-  }
-  
-
-  document.getElementById("petrolS").innerHTML = document.getElementById("petrolRange").value; // Display the default slider value
-  
-  // Update the current slider value (each time you drag the slider handle)
-  document.getElementById("petrolRange").oninput = function() {
-    document.getElementById("petrolS").innerHTML = this.value;
-  }
-
-
-  document.getElementById("publicP").innerHTML = document.getElementById("publicParkRange").value; // Display the default slider value
-  
-  // Update the current slider value (each time you drag the slider handle)
-  document.getElementById("publicParkRange").oninput = function() {
-    document.getElementById("publicP").innerHTML = this.value;
-  }
-
-  var slider = document.getElementById("culturalFacRange");
-  var output = document.getElementById("culturalF");
-  document.getElementById("culturalF").innerHTML = document.getElementById("culturalFacRange").value; // Display the default slider value
-  
-  // Update the current slider value (each time you drag the slider handle)
-  document.getElementById("culturalFacRange").oninput = function() {
-    document.getElementById("culturalF").innerHTML = this.value;
-  }
 </script> 
 
 
